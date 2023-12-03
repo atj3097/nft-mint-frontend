@@ -11,8 +11,11 @@ import {
   polygon,
   base,
   zora,
+    polygonZkEvm
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { ChakraBaseProvider} from "@chakra-ui/react";
+import chakraTheme from '@chakra-ui/theme';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -22,6 +25,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     arbitrum,
     base,
     zora,
+    polygonZkEvm,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [publicProvider()]
@@ -29,13 +33,13 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: 'RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: 'c8e492b8e3f0ef4f86d75a963cc82aec',
   chains,
 });
 
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors,
+    connectors,
   publicClient,
   webSocketPublicClient,
 });
@@ -44,7 +48,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
+        <ChakraBaseProvider theme={chakraTheme}>
         <Component {...pageProps} />
+        </ChakraBaseProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
