@@ -3,30 +3,28 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import {
-  arbitrum,
-  goerli,
-  mainnet,
-  optimism,
-  polygon,
-  base,
-  zora,
-    polygonZkEvm
-} from 'wagmi/chains';
+import { localhost } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { ChakraBaseProvider} from "@chakra-ui/react";
+import {defineChain} from "viem/utils/chain/defineChain";
+
+const localhostv2 = {
+  id: 31337,
+  name: 'LocalhostV2',
+  network: 'localhostv2',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ether',
+    symbol: 'ETH',
+  },
+  rpcUrls: {
+    default: { http: ['http://127.0.0.1:8545'] },
+    public: { http: ['http://127.0.0.1:8545'] },
+  },
+}
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    base,
-    zora,
-    polygonZkEvm,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
-  ],
+  [localhostv2],
   [publicProvider()]
 );
 
@@ -38,7 +36,7 @@ const { connectors } = getDefaultWallets({
 
 const wagmiConfig = createConfig({
   autoConnect: true,
-    connectors,
+  connectors,
   publicClient,
   webSocketPublicClient,
 });
