@@ -6,6 +6,8 @@ import {Box, Button, Flex} from '@chakra-ui/react';
 import {centerAlign} from "consola/utils";
 
 const Home: NextPage = () => {
+
+
   return (
     <div className={styles.container}>
         <Flex align="right">
@@ -14,8 +16,9 @@ const Home: NextPage = () => {
         <Flex align="center" justify="center" height="100vh">
         <Box bg="blue" w="300px" h="300px">
             <Flex direction="column" align="center" justify="center" height="100%">
-                <Box bg="white" w="150px" h="150px" />
-                <Button bg="white" m={4} top={10}>Click Me</Button>
+                <Box bg="white" w="150px" h="150px" backgroundImage={}/>
+                <Button bg="white" m={4} top={10}>Token Faucet</Button>
+                <Button bg="white" m={4} top={5}>Mint NFT</Button>
             </Flex>
         </Box>
         </Flex>
