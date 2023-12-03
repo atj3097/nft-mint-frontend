@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Image, VStack, Heading, Text, useBoolean } from '@chakra-ui/react';
 import { ethers } from 'ethers';
-import { useContract, useSigner } from 'wagmi';
+import { usePrepareContractWrite, useContractWrite, useContractRead } from 'wagmi';
 import nftAbi from '../contract-abi/nft-abi.json';
 import tokenAbi from '../contract-abi/token-abi.json';
 
@@ -11,20 +11,15 @@ const NFTMinter = () => {
     const [isTokenFaucet, setIsTokenFaucet] = useBoolean(false);
     const [hasToken, setHasToken] = useState(false);
 
-    // wagmi hooks to get the signer
-    const { data: signer } = useSigner();
 
-    // Set up contract instances with wagmi's useContract hook
-    const nftContract = useContract({
-        addressOrName: 'nft_contract_address', // Replace with actual NFT contract address
-        contractInterface: nftAbi,
-        signerOrProvider: signer,
-    });
+    const nftContract = usePrepareContractWrite({
+        address: '0x90193C961A926261B756D1E5bb255e67ff9498A1',
+        abi: nftAbi.abi
+    })
 
-    const tokenContract = useContract({
-        addressOrName: 'token_contract_address', // Replace with actual token contract address
-        contractInterface: tokenAbi,
-        signerOrProvider: signer,
+    const tokenContract = usePrepareContractWrite({
+        address: '0x34A1D3fff3958843C43aD80F30b94c510645C316',
+        abi: tokenAbi.abi
     });
 
     // Function to simulate minting process
