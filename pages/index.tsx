@@ -11,30 +11,32 @@ const NFTMinter = () => {
     const [isTokenFaucet, setIsTokenFaucet] = useBoolean(false);
     const [hasToken, setHasToken] = useState(false);
 
+    //
+    // const { config } = usePrepareContractWrite({
+    //     address: '0x90193C961A926261B756D1E5bb255e67ff9498A1',
+    //     abi: nftAbi.abi
+    // })
 
-    const nftContract = usePrepareContractWrite({
-        address: '0x90193C961A926261B756D1E5bb255e67ff9498A1',
-        abi: nftAbi.abi
-    })
-
-    const tokenContract = usePrepareContractWrite({
+    const { config } = usePrepareContractWrite({
         address: '0x34A1D3fff3958843C43aD80F30b94c510645C316',
         abi: tokenAbi.abi
     });
 
-    // Function to simulate minting process
-    const handleMint = async () => {
-        setIsMinting.on();
-        try {
-            // Here you would call the mint function on your NFT contract
-            const tx = await nftContract.mint(/* parameters if needed */);
-            await tx.wait();
-            setHasToken(true);
-        } catch (error) {
-            console.error('Minting failed', error);
-        }
-        setIsMinting.off();
-    };
+    const write = useContractWrite(config);
+
+    // // Function to simulate minting process
+    // const handleMint = async () => {
+    //     setIsMinting.on();
+    //     try {
+    //         // Here you would call the mint function on your NFT contract
+    //         const tx = await nftContract.mint(/* parameters if needed */);
+    //         await tx.wait();
+    //         setHasToken(true);
+    //     } catch (error) {
+    //         console.error('Minting failed', error);
+    //     }
+    //     setIsMinting.off();
+    // };
 
     // Function to simulate token faucet process
     const handleTokenFaucet = async () => {
