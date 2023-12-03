@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Image, VStack, Heading, Text, useBoolean } from '@chakra-ui/react';
 
+
 const NFTMinter = () => {
     // State hooks to handle the button's disabled state and loading state
     const [isMinting, setIsMinting] = useBoolean(false);
@@ -41,14 +42,13 @@ const NFTMinter = () => {
                 boxShadow="inner"
             >
                 <Image
-                    src="/path-to-your-local-nft-image.jpg"
+                    src="/images/img.png"
                     alt="NFT image"
-                    opacity={isMinting ? 0.4 : 1}
-                    transition="opacity 0.2s ease-in-out"
                 />
             </Box>
             <VStack spacing={5}>
                 <Button
+                    variant="solid"
                     size="md"
                     colorScheme="twitter"
                     isLoading={isMinting}
@@ -58,6 +58,7 @@ const NFTMinter = () => {
                     Mint NFT
                 </Button>
                 <Button
+                    variant="solid"
                     size="md"
                     colorScheme="twitter"
                     isLoading={isTokenFaucet}

@@ -15,7 +15,6 @@ import {
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { ChakraBaseProvider} from "@chakra-ui/react";
-import chakraTheme from '@chakra-ui/theme';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -48,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
-        <ChakraBaseProvider theme={chakraTheme}>
+        <ChakraBaseProvider>
         <Component {...pageProps} />
         </ChakraBaseProvider>
       </RainbowKitProvider>
