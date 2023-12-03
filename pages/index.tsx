@@ -19,10 +19,11 @@ const NFTMinter = () => {
 
     const { config } = usePrepareContractWrite({
         address: '0x34A1D3fff3958843C43aD80F30b94c510645C316',
-        abi: tokenAbi.abi
+        abi: tokenAbi.abi,
+        functionName: 'tokenFaucet'
     });
 
-    const write = useContractWrite(config);
+    const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
     // // Function to simulate minting process
     // const handleMint = async () => {
@@ -38,33 +39,6 @@ const NFTMinter = () => {
     //     setIsMinting.off();
     // };
 
-    // Function to simulate token faucet process
-    const handleTokenFaucet = async () => {
-        setIsTokenFaucet.on();
-        try {
-            // Here you would call the faucet function on your token contract
-            const tx = await tokenContract.faucet(/* parameters if needed */);
-            await tx.wait();
-        } catch (error) {
-            console.error('Token faucet failed', error);
-        }
-        setIsTokenFaucet.off();
-    };
-
-    // Effect to check if the user has the token
-    useEffect(() => {
-        if (!signer) return;
-        // Here you would check if the connected wallet has the token
-        // For example, calling a balanceOf or similar function on the token contract
-        const checkHasToken = async () => {
-            const address = await signer.getAddress();
-            const balance = await tokenContract.balanceOf(address);
-            setHasToken(balance > 0);
-        };
-
-        checkHasToken();
-    }, [signer, tokenContract]);
-
     return (
         <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="2xl" p={6} m="40px auto" textAlign="center" bg="white">
             <Heading fontSize="2xl" mb={4}>Mint NFT with the Adam Token</Heading>
@@ -72,10 +46,11 @@ const NFTMinter = () => {
                 <Image src="/images/img.png" alt="NFT image" opacity={hasToken ? 1 : 0.4} />
             </Box>
             <VStack spacing={5}>
-                <Button variant="solid" size="md" colorScheme="twitter" isLoading={isMinting} isDisabled={isMinting} onClick={handleMint}>
+                <Button variant="solid" size="md" colorScheme="twitter" isLoading={isMinting} isDisabled={isMinting}>
                     Mint NFT
                 </Button>
-                <Button variant="solid" size="md" colorScheme="twitter" isLoading={isTokenFaucet} isDisabled={isTokenFaucet} onClick={handleTokenFaucet}>
+                <Button variant="solid" size="md" colorScheme="twitter" isLoading={isTokenFaucet} isDisabled={isTokenFaucet}
+                        onClick={() => write?.()}>
                     Tap for Token Faucet
                 </Button>
             </VStack>
